@@ -79,7 +79,19 @@ def judge_suica(filename, number):
     return score
 
 
+class Sound(BaseModel):
+    b6: str
+
+
 @app.get("/sounds/")
+async def read_item(b6: str):
+    if b6 == None:
+        return {"Score": "Error"}
+    else:
+        return {"Score": urlsafe_base64_to_mp3(b6, "tmp.mp3")}
+
+
+@app.post("/sounds/")
 async def read_item(b6: str):
     if b6 == None:
         return {"Score": "Error"}
