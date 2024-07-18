@@ -4,6 +4,7 @@ import numpy as np
 import librosa
 import base64
 import uuid
+import os
 
 app = FastAPI()
 
@@ -83,17 +84,18 @@ class Sound(BaseModel):
     b6: str
 
 
-@app.get("/sounds/")
-async def read_item(b6: str):
-    if b6 == None:
-        return {"Score": "Error"}
-    else:
-        return {"Score": urlsafe_base64_to_mp3(b6, "tmp.mp3")}
+# @app.get("/sounds/")
+# async def read_item(b6: str):
+#     if b6 == None:
+#         return {"Score": "Error"}
+#     else:
+#         return {"Score": urlsafe_base64_to_mp3(b6, "tmp.mp3")}
 
 
 @app.post("/sounds/")
 async def read_item(sound: Sound):
-
-    score = urlsafe_base64_to_mp3(sound.b6, f"{uuid.uuid4()}.mp3")
-    # return {"Score": urlsafe_base64_to_mp3(sound.b6, "tmp.mp3")}
-    return score
+    tmp_file_path = os.path.join("/tmp", f"{uuid.uuid4()}.mp3")
+    score = urlsafe_base64_to_mp3(sound.b6, tmp_file_path)
+    if score is None:
+        return {"Score": "Error decoding Base64"}
+    return {"Score": score}
