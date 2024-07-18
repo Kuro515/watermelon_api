@@ -33,7 +33,7 @@ def urlsafe_base64_to_mp3(base64_string, output_file_path):
         # return True
     except Exception as e:
         print(f"Error decoding Base64: {e}")
-        return False
+        return e
 
 
 def judge_suica(filename, number):
