@@ -3,11 +3,12 @@ from pydantic import BaseModel
 import numpy as np
 import librosa
 import base64
-import uuid
+
 
 app = FastAPI()
 
 scores = {}
+# np.import_array()
 
 
 # def mp3_to_base64(file_path):
@@ -97,8 +98,8 @@ class Sound(BaseModel):
 
 
 @app.post("/sounds/")
-async def read_item(sound: Sound):
-    score = urlsafe_base64_to_mp3(sound.b6, f"/tmp/{uuid.uuid4()}.mp3")
-    if score is None:
+async def read_item(b6: str):
+    if b6 == None:
         return {"Score": "Error"}
-    return {"Score": score}
+    else:
+        return {"Score": urlsafe_base64_to_mp3(b6, "tmp.mp3")}
