@@ -99,8 +99,8 @@ class Sound(BaseModel):
 
 
 @app.post("/sounds/")
-async def read_item(b6: str):
-    if b6 == None:
-        return {"Score": "Error"}
+async def read_item(item: Sound):
+    if not item.b6:
+        return {"msg": "Error"}
     else:
-        return {"Score": urlsafe_base64_to_mp3(b6, f"{uuid.uuid4()}.mp3")}
+        return {"Score": urlsafe_base64_to_mp3(item.b6, f"{uuid.uuid4()}.mp3")}
