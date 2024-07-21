@@ -81,7 +81,8 @@ def judge_suica(filename, number):
         # print(f"Score:{score}")
 
         # scores[number] = score
-        return score
+        s = [score, dominant_freq, bounce_score]
+        return s
     except Exception as e:
         return f"Error analyzing audio: {e}"
 
@@ -103,4 +104,5 @@ async def read_item(item: Sound):
     if not item.b6:
         return {"msg": "Error"}
     else:
-        return {"Score": urlsafe_base64_to_mp3(item.b6, f"{uuid.uuid4()}.mp3")}
+        s = urlsafe_base64_to_mp3(item.b6, f"{uuid.uuid4()}.mp3")
+        return {"Score": s[0], "Frequency": s[1], "Bounce": s[2]}
